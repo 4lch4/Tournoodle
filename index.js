@@ -40,7 +40,7 @@ module.exports = class TourneyGenerator {
 
       if (options.competitors) this.competitors = options.competitors
       else this.competitors = []
-    } else console.error('You must provide at least a game name as a parameter to the TourneyGenerator constructor.')
+    } else console.error('You must provide at least a game name as a parameter to the constructor.')
   }
 
   /**
@@ -92,10 +92,10 @@ module.exports = class TourneyGenerator {
 
   /**
    * Creates an array the size (n) of how many competitors are currently stored,
-   * and then adds 0 to n to the array and returns it. If no competitors are
-   * currently stored, an empty array is returned.
+   * and then returns it. If no competitors are currently stored, an empty array
+   * is returned.
    *
-   * @returns {number[]} Array of Seed numbers
+   * @returns {number[]} Array of seed numbers
    */
   get seedRange () {
     if (this.competitors !== undefined) {

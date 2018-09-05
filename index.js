@@ -1,20 +1,13 @@
 const tools = new (require('./util/Tools'))()
 
-// #region JSDocs Type Info
-const Types = require('./util/TypeDefs')
-const TourneyOpts = Types.TourneyOptions
-const CompetitorDef = Types.Competitor
-// #endregion JSDocs Type Info
-
 module.exports = class TourneyGenerator {
   /**
    * The default constructor for the TourneyGenerator class. Accepts all
    * possible options for a given Tournament, even the optional ones. The only
-   * required parameters are the competitor count, game name, tourney type, and
-   * how members sign up. Everything else is optional and can be set after
-   * instantiating the class.
+   * required parameters are the competitor count, game name, and tourney type.
+   * Everything else is optional and can be set after instantiating the class.
    *
-   * @param {TourneyOpts} options
+   * @param {TourneyOptions} options
    *
    * @constructor
    */
@@ -25,10 +18,7 @@ module.exports = class TourneyGenerator {
 
       // Optional tournament info
       if (options.tourneyType) this.tourneyType = options.tourneyType
-      else this.tourneyType = Types.TournamentType['Single Elimination']
-
-      if (options.memberSignup) this.memberSignup = options.memberSignup
-      else this.memberSignup = Types.MemberSignup['Users sign themselves up']
+      else this.tourneyType = 'Single Elimination'
 
       if (options.tourneyName) this.tourneyName = options.tourneyName
       else this.tourneyName = ''
@@ -72,7 +62,7 @@ module.exports = class TourneyGenerator {
    * Add the given competitor to the list of stored competitors and return the
    * updated TourneyGenerator object.
    *
-   * @param {CompetitorDef} competitor The competitor to add to the generator
+   * @param {Competitor} competitor The competitor to add to the generator
    * @returns {TourneyGenerator} The TourneyGenerator object
    */
   addCompetitor (competitor) {
@@ -123,7 +113,7 @@ module.exports = class TourneyGenerator {
    * Displays the current list of competitors by writing console.log or if a
    * Stream is provided, by writing to it.
    *
-   * @param {WritableStream} [stream] The stream to display the competitors defaults to console.log
+   * @param {WritableStream} [stream] The stream to display the competitors (defaults to console.log)
    */
   displayCompetitors (stream) {
     this.competitors.forEach((competitor, index) => {
@@ -135,3 +125,22 @@ module.exports = class TourneyGenerator {
     })
   }
 }
+
+// #region JSDocs Type Info
+/**
+ * @typedef {object} Competitor
+ * @property {string} name The name of the competitor
+ * @property {number} seed The seed/rank of the competitor
+ */
+/**
+ * @typedef {object} TourneyOptions
+ * @property {number} competitorCount The amount of individuals competing
+ * @property {string} gameName The name of the game being played
+ * @property {string} tournamentType The type of tournament hosted (Single Elim., Round Robin, etc.)
+ * @property {string} [tourneyName] The name of this specific tournament
+ * @property {string} [tourneyDesc] A description of the tournament
+ * @property {boolean} [thirdPlaceMatch] True or false, should a third place be determined
+ * @property {boolean} [randomizeSeeds] True or false, should the competitor seeds be randomized
+ * @property {Competitor[]} [competitors] An array containing the competitors for this tournament
+ */
+// #endregion JSDocs Type Info

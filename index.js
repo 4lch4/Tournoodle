@@ -18,7 +18,10 @@ module.exports = class TourneyGenerator {
 
       // Optional tournament info
       if (options.tourneyType) this.tourneyType = options.tourneyType
-      else this.tourneyType = 'Single Elimination'
+      else this.tourneyType = 0 // 0 = Single Elim.; 1 = Double Elim.
+
+      if (options.signupType) this.signupType = options.signupType
+      else this.signupType = 0 // 0 = Competitor Signup; 1 = Creator Signup
 
       if (options.tourneyName) this.tourneyName = options.tourneyName
       else this.tourneyName = ''
@@ -66,7 +69,7 @@ module.exports = class TourneyGenerator {
    * @returns {TourneyGenerator} The TourneyGenerator object
    */
   addCompetitor (competitor) {
-    if (competitor !== undefined || competitor.name !== undefined) {
+    if (competitor !== undefined || competitor.id !== undefined) {
       // Add the provided competitor to the stored list
       this.competitors.push(competitor)
     } else console.error('The provided competitor was undefined. Please provide a valid object.')
@@ -128,35 +131,40 @@ module.exports = class TourneyGenerator {
   }
 
   /**
-   * Displays the current list of competitors by writing console.log or if a
-   * Stream is provided, by writing to it.
+   * Gets a competitor by index value.
    *
-   * @param {WritableStream} [stream] The stream to display the competitors (defaults to console.log)
+   * @param {number} index The index of the competitor to retrieve
+   *
+   * @returns {Competitor}
    */
-  displayCompetitors (stream) {
-    this.competitors.forEach((competitor, index) => {
-      let output = `Competitor #${index} - ${competitor.name}`
-      if (competitor.seed !== -1) output += ` - Seed = ${competitor.seed}`
-
-      if (stream) stream.write(`${output}\n`)
-      else console.log(output)
-    })
+  getCompetitor (index) {
+    return this.competitors[index]
   }
+
+  getCompetitorById (id) {
+    for (let x = 0; x < this.competitors.length; x++) {
+      if (this.competitors[x].id === id) return this.competitors[x]
+    }
+  }
+  // #endregion Tournament Getters
 }
 
 // #region JSDocs Type Info
 /**
  * @typedef {object} Competitor
- * @property {string} name The name of the competitor
- * @property {number} seed The seed/rank of the competitor
+ * @property {string} id The user id of the competitor
+ * @property {number} [seed] The seed/rank of the competitor
  */
 /**
  * @typedef {object} TourneyOptions
- * @property {number} competitorCount The amount of individuals competing
  * @property {string} gameName The name of the game being played
- * @property {string} tournamentType The type of tournament hosted (Single Elim., Round Robin, etc.)
+ * @property {number} [tournamentType] The type of tournament hosted (0 = Single Elim., 1 = Double Elim.)
  * @property {string} [tourneyName] The name of this specific tournament
+ * @property {number} [competitorCount] The amount of individuals competing
  * @property {string} [tourneyDesc] A description of the tournament
+ * @property {string} [signupDate] The date signups are unlocked
+ * @property {string} [hostedDate] The date the tournament will be hosted
+ * @property {number} [signupType] The type of signup (0 = Competitor Signup, 1 = Creator Signup)
  * @property {boolean} [thirdPlaceMatch] True or false, should a third place be determined
  * @property {boolean} [randomizeSeeds] True or false, should the competitor seeds be randomized
  * @property {Competitor[]} [competitors] An array containing the competitors for this tournament

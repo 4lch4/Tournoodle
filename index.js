@@ -91,6 +91,24 @@ module.exports = class TourneyGenerator {
   }
 
   /**
+   * Displays the current list of competitors by writing console.log or if a
+   * Stream is provided, by writing to it.
+   *
+   * @param {WritableStream} [stream] The stream to display the competitors (defaults to console.log)
+   */
+  displayCompetitors (stream) {
+    this.competitors.forEach((competitor, index) => {
+      let output = `Competitor #${index} - ${competitor.id}`
+      if (competitor.seed !== -1) output += ` - Seed = ${competitor.seed}`
+      output += `\n`
+
+      if (stream) stream.write(output)
+      else console.log(output)
+    })
+  }
+
+  // #region Tournament Getters
+  /**
    * Creates an array the size (n) of how many competitors are currently stored,
    * and then returns it. If no competitors are currently stored, an empty array
    * is returned.

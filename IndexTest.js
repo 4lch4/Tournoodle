@@ -1,28 +1,16 @@
-const types = require('./util/TypeDefs')
-const index = new (require('./index'))({
-  competitorCount: 5,
+const fake = require('faker')
+
+const generator = new (require('./index'))({
+  competitorCount: 25,
   gameName: 'Brawlhalla',
-  tourneyType: types.TournamentType['Single Elimination'],
-  memberSignup: types.MemberSignup['Creator provides names'],
-  competitors: [{
-    name: 'Alcha'
-  }, {
-    name: 'Toofer'
-  }, {
-    name: 'Bella'
-  }, {
-    name: 'JayBae'
-  }, {
-    name: 'Foupa'
-  }]
+  tourneyType: 'Single Elimination',
+  signupType: 0
 })
 
-/* index.addCompetitor({ name: 'Alcha' })
-  .addCompetitor({ name: 'Toofer' })
-  .addCompetitor({ name: 'Bella' })
-  .addCompetitor({ name: 'Foupa' })
-  .addCompetitor({ name: 'JayBae' }) */
+for (let x = 0; x < 25; x++) {
+  generator.addCompetitor({ id: fake.random.number(999999999999999999) })
+}
 
-index.generateRandomSeeds()
+generator.generateRandomSeeds()
 
-index.displayCompetitors()
+generator.displayCompetitors()

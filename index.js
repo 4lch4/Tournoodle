@@ -23,6 +23,9 @@ module.exports = class TourneyGenerator {
       if (options.signupType) this.signupType = options.signupType
       else this.signupType = 0 // 0 = Competitor Signup; 1 = Creator Signup
 
+      if (options.competitorCount) this.competitorCount = options.competitorCount
+      else this.competitorCount = -1
+
       if (options.tourneyName) this.tourneyName = options.tourneyName
       else this.tourneyName = ''
 

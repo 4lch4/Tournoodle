@@ -1,5 +1,7 @@
 # Tournoodle
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/HF-Solutions/Tournoodle.svg)](https://greenkeeper.io/)
+
 **Tournoodle** is a node.js module for generating and managing tournament brackets. The primary goal is to be used in conjunction with [Tron][0] in order to add a Tournament command.
 
 For example, you could instantiate the base class and add the basic information for the tournament, then as people want to join they can be added as a *competitor* which is then able to be flagged as the winner or loser of a game and progress is stored.
